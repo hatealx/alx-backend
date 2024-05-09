@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """3. Parametrize templates
 """
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_babel import Babel, _
 
 
@@ -20,13 +20,12 @@ app.config.from_object(Config)
 babel = Babel(app)
 
 
-@babel.localeselector
 def get_locale():
     """get_locale
     """
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
-
+babel.init_app(app, locale_selector=get_locale)
 @app.route('/')
 def index():
     """index
